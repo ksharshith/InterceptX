@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>InterceptX</title>
+  <link rel="stylesheet" href="popup.css">
+  <link rel="icon" type="image/png" href="../icons/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container" id="app-container">
+    
+    <!-- Top Bar -->
+    <header class="main-header">
+      <div class="logo-area">
+        <div class="logo-icon" style="overflow: hidden; border-radius: 6px; width: 22px; height: 22px;"><img src="../icons/icon.png" alt="Logo" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div>
+        <div class="logo-text">
+          <h1>InterceptX</h1>
+          <span class="subtext">Compact ModHeader Utility</span>
+        </div>
+      </div>
+      
+      <div class="actions-area">
+        <button id="btn-theme-toggle" class="btn btn-icon btn-secondary" title="Toggle Light/Dark Theme" style="margin-right: 8px;">
+          <svg id="theme-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        
+        <button id="btn-open-tab" class="btn btn-secondary btn-compact" title="Open Dashboard in Full Tab">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+          <span>Dashboard</span>
+        </button>
+        
+        <div class="status-panel">
+          <span id="status-indicator" class="status-badge inactive">Inactive</span>
+          <label class="switch">
+            <input type="checkbox" id="master-enable">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+    </header>
+    
+    <!-- Profile Toolbar (Compact) -->
+    <section class="profile-toolbar glass-card">
+      <div class="toolbar-left">
+        <div class="select-wrapper">
+          <select id="profile-select">
+            <!-- Dynamically populated -->
+          </select>
+        </div>
+        
+        <div class="profile-actions">
+          <button id="btn-rename-profile" class="btn-tool" title="Rename Profile">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+          </button>
+          <button id="btn-clone-profile" class="btn-tool" title="Clone Profile">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          </button>
+          <button id="btn-delete-profile" class="btn-tool btn-tool-danger" title="Delete Profile">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <div class="toolbar-right">
+        <button id="btn-create-profile" class="btn btn-primary btn-compact">
+          <span>+ Profile</span>
+        </button>
+        <button id="btn-export-profiles" class="btn btn-secondary btn-compact" title="Export">
+          <span>Export</span>
+        </button>
+        <button id="btn-import-trigger" class="btn btn-secondary btn-compact" title="Import">
+          <span>Import</span>
+        </button>
+        <input type="file" id="import-file" accept=".json">
+      </div>
+    </section>
+
+    <!-- Quick Add Rules Bar -->
+    <section class="quick-add-bar glass-card">
+      <span class="quick-add-label">Quick Add:</span>
+      <button id="btn-quick-add-req" class="btn btn-primary btn-compact">
+        <span>+ Request Header</span>
+      </button>
+      <button id="btn-quick-add-res" class="btn btn-secondary btn-compact">
+        <span>+ Response Header</span>
+      </button>
+      <button id="btn-quick-add-redirect" class="btn btn-secondary btn-compact">
+        <span>+ Redirect Rule</span>
+      </button>
+      <button id="btn-quick-add-filter" class="btn btn-secondary btn-compact">
+        <span>+ Filter Rule</span>
+      </button>
+    </section>
+    
+    <!-- Main Content Layout -->
+    <main class="main-layout">
+      
+      <!-- Left Column: Header Modifications & Redirects -->
+      <div class="content-left">
+        <!-- Active Headers Section -->
+        <section class="workspace-section headers-section glass-card">
+          <div class="section-header">
+            <h2>Active Headers</h2>
+          </div>
+          
+          <div class="table-container">
+            <table class="rules-table" id="headers-table">
+              <thead>
+                <tr>
+                  <th class="col-active">State</th>
+                  <th class="col-type">Action / Type</th>
+                  <th class="col-name">Header Name</th>
+                  <th class="col-value">Header Value</th>
+                  <th class="col-comment">Comment</th>
+                  <th class="col-delete"></th>
+                </tr>
+              </thead>
+              <tbody id="headers-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+            
+            <div id="headers-empty" class="empty-state">
+              <p>No headers configured. Use the <strong>Quick Add</strong> bar above to create a request or response header rule.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Redirect Rules Section -->
+        <section class="workspace-section redirects-section glass-card" style="margin-top: 10px;">
+          <div class="section-header">
+            <h2>URL Redirects</h2>
+          </div>
+          
+          <div class="table-container">
+            <table class="rules-table" id="redirects-table">
+              <thead>
+                <tr>
+                  <th class="col-active">State</th>
+                  <th class="col-pattern">Original URL Pattern (Regex)</th>
+                  <th class="col-target">Redirect Destination URL</th>
+                  <th class="col-comment">Comment</th>
+                  <th class="col-delete"></th>
+                </tr>
+              </thead>
+              <tbody id="redirects-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+            
+            <div id="redirects-empty" class="empty-state">
+              <p>No redirects configured. Use the <strong>Quick Add</strong> bar above to create a URL redirect rule.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+      
+      <!-- Right Column: Filters and Resource Types -->
+      <div class="content-right">
+        
+        <!-- URL Filters Panel -->
+        <section class="workspace-section filters-section glass-card">
+          <div class="section-header">
+            <h2>URL Filters</h2>
+          </div>
+          
+          <div class="filter-list-container">
+            <ul class="filter-list" id="filters-list">
+              <!-- Dynamically populated -->
+            </ul>
+            
+            <div id="filters-empty" class="empty-state compact">
+              <p>Applied globally to <strong>all URLs (*)</strong>.</p>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Resource Types Collapsible Panel -->
+        <details class="resources-details glass-card" open>
+          <summary class="resources-summary">
+            <h2>Resource Types</h2>
+            <button id="btn-toggle-resources" class="btn-text-action" onclick="event.preventDefault();">All / None</button>
+          </summary>
+          <div class="resources-content">
+            <div class="resources-grid" id="resources-grid">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </details>
+        
+      </div>
+      
+    </main>
+    
+    <!-- Modal for Renaming/Creating Profiles -->
+    <div class="modal-backdrop" id="modal-container">
+      <div class="modal-card glass-card">
+        <h3 id="modal-title">Rename Profile</h3>
+        <div class="modal-body">
+          <div class="input-field">
+            <label for="modal-input">Profile Name</label>
+            <input type="text" id="modal-input" placeholder="e.g. My Custom Rules" autofocus>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="btn-modal-cancel" class="btn btn-secondary btn-compact">Cancel</button>
+          <button id="btn-modal-save" class="btn btn-primary btn-compact">Save Changes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Docs Modal -->
+    <div id="docs-modal" class="modal-backdrop">
+      <div class="modal-card docs-modal-card glass-card">
+        <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h3 style="margin: 0; font-size: 14px;">InterceptX — Usage Guide</h3>
+          <button id="btn-close-docs" class="btn btn-icon btn-secondary" style="border: none; background: transparent; color: var(--text-muted); font-size: 18px; cursor: pointer; padding: 0 4px;" title="Close">&times;</button>
+        </div>
+        <div class="modal-body docs-modal-body">
+          <h4>1. Introduction</h4>
+          <p>InterceptX allows you to dynamically modify request/response headers, redirect URLs, and filter modifications by tab domain or request URL patterns.</p>
+          
+          <h4>2. Usage Modes</h4>
+          <ul>
+            <li><strong>Popup Mode</strong>: Click the extension icon in the toolbar for quick additions.</li>
+            <li><strong>Dashboard Mode</strong>: Click the open icon next to the profile name to open a dual-column workspace in a full tab.</li>
+          </ul>
+
+          <h4>3. Rule Modifications</h4>
+          <ul>
+            <li><strong>Headers</strong>: Add header injection rules for Requests (Set, Append, Remove) and Responses (Set, Append, Remove).</li>
+            <li><strong>Redirects</strong>: Match incoming request URLs using regular expressions (RE2 syntax) and redirect them to target URLs (supports capture groups like <code>\1</code>).</li>
+          </ul>
+
+          <h4>4. Filter Types</h4>
+          <ul>
+            <li><strong>Match</strong>: Apply rule modifications only if the request URL matches this wildcard pattern.</li>
+            <li><strong>Exclude</strong>: Bypass rule modifications if the request URL matches this pattern (uses high-priority allow action).</li>
+            <li><strong>Domain</strong>: Restrict rules to requests initiated from this tab domain.</li>
+          </ul>
+
+          <h4>5. Import & Export</h4>
+          <p>Save and restore configurations instantly as JSON files using the <strong>Export</strong> and <strong>Import</strong> buttons in the header toolbar.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <span>InterceptX v1.0.0</span>
+      <span class="footer-separator">&bull;</span>
+      <button id="btn-show-docs" class="btn-link" style="background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 0; font-size: 10px;">Docs & Guide</button>
+      <span class="footer-separator">&bull;</span>
+      <a href="https://github.com/ksharshith/InterceptX/issues" target="_blank" style="color: var(--text-secondary); text-decoration: none; font-size: 10px;">Report Issue</a>
+    </footer>
+
+    <!-- Notification Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+    
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
