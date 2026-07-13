@@ -780,7 +780,7 @@ function renderActiveProfile() {
         <select class="filter-type-select">
           <option value="url-match" ${filterType === "url-match" ? "selected" : ""}>Match</option>
           <option value="url-exclude" ${filterType === "url-exclude" ? "selected" : ""}>Exclude</option>
-          <option value="tab-domain" ${filterType === "tab-domain" ? "selected" : ""}>Domain</option>
+          <option value="request-origin" ${filterType === "request-origin" || filterType === "tab-domain" ? "selected" : ""}>Origin</option>
         </select>
         <input type="text" class="filter-url-input" value="${escapeHtml(filter.value)}" placeholder="Pattern / Domain...">
         <button class="btn btn-icon btn-danger btn-sm btn-delete-filter" title="Delete Filter">

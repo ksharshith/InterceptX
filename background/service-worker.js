@@ -87,7 +87,7 @@ async function updateDeclarativeRules() {
       const allFilters = activeProfile.filters || [];
       const urlMatches = allFilters.filter(f => f.enabled && f.value.trim() !== "" && (f.type === "url-match" || !f.type));
       const urlExcludes = allFilters.filter(f => f.enabled && f.value.trim() !== "" && f.type === "url-exclude");
-      const tabDomains = allFilters.filter(f => f.enabled && f.value.trim() !== "" && f.type === "tab-domain");
+      const tabDomains = allFilters.filter(f => f.enabled && f.value.trim() !== "" && (f.type === "tab-domain" || f.type === "request-origin"));
       
       const tabDomainsList = tabDomains.map(d => getDomainOnly(d.value)).filter(d => d !== "");
       
