@@ -30,7 +30,7 @@ The dashboard is structured into two main workspace zones:
 * **URL Filters**: Restricts modifications to specific request targets.
   * **Match**: Apply rules only if the request URL matches this pattern (supports wildcards, e.g. `*://api.example.com/*`).
   * **Exclude**: Skip rule execution if the request URL matches this pattern.
-  * **Origin**: Request Origin locks. Restricts modifications only to requests initiated from the specified origin domain name (initiator domain).
+  * **Domain**: Tab Domain locks. Restricts modifications only to requests initiated from the specified domain name.
 * **Resource Types**: Scopes header injection to specific request formats (e.g., limit changes only to `Document/main_frame` or `xmlhttprequest/Fetch`).
 
 ---
@@ -62,11 +62,11 @@ The redirect engine uses regular expressions to capture and replace path section
 
 ---
 
-## 5. Exclude & Origin Filtering Scenarios
+## 5. Exclude & Domain Filtering Scenarios
 
 * **Excluding Asset Paths**: If you want header overrides to run across `httpbin.org` but bypass static assets:
   * Add a filter rule: Type = `Match`, Value = `*://httpbin.org/*`
   * Add another rule: Type = `Exclude`, Value = `*://httpbin.org/static/*`
-* **Scoping to a Specific Tab/Origin**: To keep overrides active *only* when you are browsing on `httpbin.org`:
-  * Add a filter rule: Type = `Origin`, Value = `httpbin.org`
+* **Scoping to a Specific Tab**: To keep overrides active *only* when you are browsing on `httpbin.org`:
+  * Add a filter rule: Type = `Domain`, Value = `httpbin.org`
   * This prevents headers from leaking to other tabs open in the same browser window.

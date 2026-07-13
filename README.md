@@ -64,7 +64,7 @@ Use the **Master Enable** toggle switch in the top-left header of the popup or d
 By default, active rules apply to all requests (`*`). You can restrict them by adding filters:
 * **Match**: Enter a wildcard pattern (e.g., `*://api.dev.local/*`) to only apply modifications to matching URLs.
 * **Exclude**: Enter a pattern (e.g., `*/static/*`) to skip modifications for matching URLs.
-* **Origin**: Type a hostname/domain (e.g., `mytestsite.com`) to restrict modifications to requests initiated from that origin only (maps to initiator domain).
+* **Domain**: Type a hostname (e.g., `mytestsite.com`) to restrict modifications to requests initiated from that tab domain only.
 
 ---
 

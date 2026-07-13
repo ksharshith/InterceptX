@@ -109,7 +109,7 @@ async function loadState() {
       const storedActiveId = localStorage.getItem("activeProfileId");
       const storedEnabled = localStorage.getItem("enabled");
       const storedTheme = localStorage.getItem("theme");
-      
+
       data = {
         profiles: storedProfiles ? JSON.parse(storedProfiles) : null,
         activeProfileId: storedActiveId || null,
@@ -117,7 +117,7 @@ async function loadState() {
         theme: storedTheme || "dark"
       };
     }
-    
+
     state.profiles = data.profiles || [];
     state.profiles.forEach(p => {
       if (!p.headers) p.headers = [];
@@ -129,10 +129,10 @@ async function loadState() {
     });
     state.activeProfileId = data.activeProfileId || "";
     state.enabled = !!data.enabled;
-    
+
     const theme = data.theme || "dark";
     applyTheme(theme);
-    
+
     // Fallback if profiles list is empty
     if (state.profiles.length === 0) {
       const defaultProfile = createNewProfileObject("Default Profile");
@@ -229,11 +229,11 @@ function setupEventListeners() {
     });
   }
 
-    // Quick Add Request Header
+  // Quick Add Request Header
   btnQuickAddReq.addEventListener("click", async () => {
     const activeProfile = getActiveProfile();
     if (!activeProfile) return;
-    
+
     activeProfile.headers.push({
       id: "header-" + Date.now() + Math.random().toString(36).substr(2, 5),
       type: "request",
@@ -243,10 +243,10 @@ function setupEventListeners() {
       enabled: true,
       comment: ""
     });
-    
+
     await saveState();
     renderActiveProfile();
-    
+
     // Focus name input of the new row
     const rows = headersTbody.querySelectorAll("tr");
     if (rows.length > 0) {
@@ -259,7 +259,7 @@ function setupEventListeners() {
   btnQuickAddRes.addEventListener("click", async () => {
     const activeProfile = getActiveProfile();
     if (!activeProfile) return;
-    
+
     activeProfile.headers.push({
       id: "header-" + Date.now() + Math.random().toString(36).substr(2, 5),
       type: "response",
@@ -269,10 +269,10 @@ function setupEventListeners() {
       enabled: true,
       comment: ""
     });
-    
+
     await saveState();
     renderActiveProfile();
-    
+
     // Focus name input of the new row
     const rows = headersTbody.querySelectorAll("tr");
     if (rows.length > 0) {
@@ -285,20 +285,20 @@ function setupEventListeners() {
   btnQuickAddFilter.addEventListener("click", async () => {
     const activeProfile = getActiveProfile();
     if (!activeProfile) return;
-    
+
     const detectedUrl = await getCurrentTabUrl();
     const defaultUrl = detectedUrl || "*://example.com/*";
-    
+
     activeProfile.filters.push({
       id: "filter-" + Date.now() + Math.random().toString(36).substr(2, 5),
       value: defaultUrl,
       type: "url-match",
       enabled: true
     });
-    
+
     await saveState();
     renderActiveProfile();
-    
+
     // Focus input of the new filter and select all text
     const items = filtersList.querySelectorAll("li");
     if (items.length > 0) {
@@ -314,9 +314,9 @@ function setupEventListeners() {
   btnQuickAddRedirect.addEventListener("click", async () => {
     const activeProfile = getActiveProfile();
     if (!activeProfile) return;
-    
+
     if (!activeProfile.redirects) activeProfile.redirects = [];
-    
+
     activeProfile.redirects.push({
       id: "redirect-" + Date.now() + Math.random().toString(36).substr(2, 5),
       pattern: "",
@@ -324,10 +324,10 @@ function setupEventListeners() {
       enabled: true,
       comment: ""
     });
-    
+
     await saveState();
     renderActiveProfile();
-    
+
     // Focus original pattern input of the newly added row
     const redirectsTbody = document.getElementById("redirects-tbody");
     if (redirectsTbody) {
@@ -343,14 +343,14 @@ function setupEventListeners() {
   btnToggleResources.addEventListener("click", async () => {
     const activeProfile = getActiveProfile();
     if (!activeProfile) return;
-    
+
     const allSelected = activeProfile.resourceTypes.length === ALL_RESOURCE_TYPES.length;
     if (allSelected) {
       activeProfile.resourceTypes = [];
     } else {
       activeProfile.resourceTypes = [...ALL_RESOURCE_TYPES];
     }
-    
+
     await saveState();
     renderActiveProfile();
   });
@@ -371,7 +371,7 @@ function setupEventListeners() {
   btnRenameProfile.addEventListener("click", () => {
     const activeProfile = getActiveProfile();
     if (!activeProfile) return;
-    
+
     openModal("Rename Profile", activeProfile.name, async (newName) => {
       const cleanName = newName.trim();
       if (!cleanName || cleanName === activeProfile.name) return;
@@ -384,14 +384,14 @@ function setupEventListeners() {
   btnCloneProfile.addEventListener("click", async () => {
     const activeProfile = getActiveProfile();
     if (!activeProfile) return;
-    
+
     const clone = JSON.parse(JSON.stringify(activeProfile));
     clone.id = "profile-" + Date.now() + Math.random().toString(36).substr(2, 5);
     clone.name = activeProfile.name + " (Copy)";
-    
+
     state.profiles.push(clone);
     state.activeProfileId = clone.id;
-    
+
     await saveState();
     renderUI();
   });
@@ -401,10 +401,10 @@ function setupEventListeners() {
       showToast("Cannot delete the only remaining profile!", "danger");
       return;
     }
-    
+
     const activeProfile = getActiveProfile();
     if (!activeProfile) return;
-    
+
     if (confirm(`Are you sure you want to delete profile "${activeProfile.name}"?`)) {
       state.profiles = state.profiles.filter(p => p.id !== activeProfile.id);
       state.activeProfileId = state.profiles[0].id;
@@ -424,10 +424,10 @@ function setupEventListeners() {
         activeProfileId: state.activeProfileId,
         enabled: state.enabled
       };
-      
+
       const jsonString = JSON.stringify(exportData, null, 2);
       const filename = `interceptx-export-${new Date().toISOString().split('T')[0]}.json`;
-      
+
       if (isExtension) {
         const blob = new Blob([jsonString], { type: "application/json" });
         const url = URL.createObjectURL(blob);
@@ -448,7 +448,7 @@ function setupEventListeners() {
         // Fallback for file:// or http:// browser testing: use Data URL to ensure the download filename is respected
         const base64Json = btoa(unescape(encodeURIComponent(jsonString)));
         const dataUrl = `data:application/json;charset=utf-8;base64,${base64Json}`;
-        
+
         const a = document.createElement("a");
         a.href = dataUrl;
         a.download = filename;
@@ -476,7 +476,7 @@ function setupEventListeners() {
       importFile.value = "";
       return;
     }
-    
+
     const reader = new FileReader();
     reader.onload = async (event) => {
       try {
@@ -484,7 +484,7 @@ function setupEventListeners() {
         if (!imported.profiles || !Array.isArray(imported.profiles)) {
           throw new Error("Invalid configuration file format. 'profiles' array is missing.");
         }
-        
+
         // Merge or replace options
         if (confirm("Do you want to overwrite your current configuration? (Cancel will merge the profiles instead)")) {
           state.profiles = imported.profiles;
@@ -499,7 +499,7 @@ function setupEventListeners() {
             state.profiles.push(freshProfile);
           }
         }
-        
+
         // Sanitize imported profiles to guarantee data properties exist
         state.profiles.forEach(p => {
           if (!p.headers) p.headers = [];
@@ -509,7 +509,7 @@ function setupEventListeners() {
             if (!f.type) f.type = "url-match";
           });
         });
-        
+
         await saveState();
         renderUI();
         showToast("Configuration imported successfully");
@@ -526,7 +526,7 @@ function setupEventListeners() {
   // Modal Dialog Action Triggers
   btnModalCancel.addEventListener("click", closeModal);
   btnModalSave.addEventListener("click", submitModal);
-  
+
   modalInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       submitModal();
@@ -581,9 +581,9 @@ function renderActiveProfile() {
     activeProfile.headers.forEach((header, index) => {
       const row = document.createElement("tr");
       row.dataset.id = header.id;
-      
+
       const currentActionType = `${header.type}-${header.operation}`;
-      
+
       row.innerHTML = `
         <td class="col-active">
           <label class="checkbox-container">
@@ -619,7 +619,7 @@ function renderActiveProfile() {
           </button>
         </td>
       `;
-      
+
       // Inline Row Change Listeners
       const rowEnableToggle = row.querySelector(".header-enable-toggle");
       const rowActionSelect = row.querySelector(".header-action-select");
@@ -627,12 +627,12 @@ function renderActiveProfile() {
       const rowValueInput = row.querySelector(".header-value-input");
       const rowCommentInput = row.querySelector(".header-comment-input");
       const rowDeleteBtn = row.querySelector(".btn-delete-row");
-      
+
       rowEnableToggle.addEventListener("change", async (e) => {
         header.enabled = e.target.checked;
         await saveState();
       });
-      
+
       rowActionSelect.addEventListener("change", async (e) => {
         const [type, op] = e.target.value.split("-");
         header.type = type;
@@ -646,7 +646,7 @@ function renderActiveProfile() {
         }
         await saveState();
       });
-      
+
       rowNameInput.addEventListener("blur", async (e) => {
         const val = e.target.value.trim();
         // Validation check for spaces in header name
@@ -659,23 +659,23 @@ function renderActiveProfile() {
         header.name = val;
         await saveState();
       });
-      
+
       rowValueInput.addEventListener("blur", async (e) => {
         header.value = e.target.value;
         await saveState();
       });
-      
+
       rowCommentInput.addEventListener("blur", async (e) => {
         header.comment = e.target.value;
         await saveState();
       });
-      
+
       rowDeleteBtn.addEventListener("click", async () => {
         activeProfile.headers.splice(index, 1);
         await saveState();
         renderActiveProfile();
       });
-      
+
       headersTbody.appendChild(row);
     });
   }
@@ -683,11 +683,11 @@ function renderActiveProfile() {
   // 1.5. Render Redirects
   const redirectsTbody = document.getElementById("redirects-tbody");
   const redirectsEmpty = document.getElementById("redirects-empty");
-  
+
   if (redirectsTbody) {
     redirectsTbody.innerHTML = "";
     const redirects = activeProfile.redirects || [];
-    
+
     if (redirects.length === 0) {
       redirectsEmpty.style.display = "flex";
     } else {
@@ -695,7 +695,7 @@ function renderActiveProfile() {
       redirects.forEach((r, index) => {
         const row = document.createElement("tr");
         row.dataset.id = r.id;
-        
+
         row.innerHTML = `
           <td class="col-active">
             <label class="checkbox-container">
@@ -721,39 +721,39 @@ function renderActiveProfile() {
             </button>
           </td>
         `;
-        
+
         const rowEnable = row.querySelector(".redirect-enable-toggle");
         const rowPattern = row.querySelector(".redirect-pattern-input");
         const rowTarget = row.querySelector(".redirect-target-input");
         const rowComment = row.querySelector(".redirect-comment-input");
         const rowDelete = row.querySelector(".btn-delete-redirect");
-        
+
         rowEnable.addEventListener("change", async (e) => {
           r.enabled = e.target.checked;
           await saveState();
         });
-        
+
         rowPattern.addEventListener("blur", async (e) => {
           r.pattern = e.target.value.trim();
           await saveState();
         });
-        
+
         rowTarget.addEventListener("blur", async (e) => {
           r.target = e.target.value.trim();
           await saveState();
         });
-        
+
         rowComment.addEventListener("blur", async (e) => {
           r.comment = e.target.value;
           await saveState();
         });
-        
+
         rowDelete.addEventListener("click", async () => {
           activeProfile.redirects.splice(index, 1);
           await saveState();
           renderActiveProfile();
         });
-        
+
         redirectsTbody.appendChild(row);
       });
     }
@@ -769,9 +769,9 @@ function renderActiveProfile() {
       const li = document.createElement("li");
       li.className = "filter-item";
       li.dataset.id = filter.id;
-      
+
       const filterType = filter.type || "url-match";
-      
+
       li.innerHTML = `
         <label class="checkbox-container">
           <input type="checkbox" class="filter-enable-toggle" ${filter.enabled ? "checked" : ""}>
@@ -780,7 +780,7 @@ function renderActiveProfile() {
         <select class="filter-type-select">
           <option value="url-match" ${filterType === "url-match" ? "selected" : ""}>Match</option>
           <option value="url-exclude" ${filterType === "url-exclude" ? "selected" : ""}>Exclude</option>
-          <option value="request-origin" ${filterType === "request-origin" || filterType === "tab-domain" ? "selected" : ""}>Origin</option>
+          <option value="tab-domain" ${filterType === "tab-domain" || filterType === "request-origin" ? "selected" : ""}>Domain</option>
         </select>
         <input type="text" class="filter-url-input" value="${escapeHtml(filter.value)}" placeholder="Pattern / Domain...">
         <button class="btn btn-icon btn-danger btn-sm btn-delete-filter" title="Delete Filter">
@@ -790,33 +790,33 @@ function renderActiveProfile() {
           </svg>
         </button>
       `;
-      
+
       const filterEnableToggle = li.querySelector(".filter-enable-toggle");
       const filterTypeSelect = li.querySelector(".filter-type-select");
       const filterUrlInput = li.querySelector(".filter-url-input");
       const filterDeleteBtn = li.querySelector(".btn-delete-filter");
-      
+
       filterEnableToggle.addEventListener("change", async (e) => {
         filter.enabled = e.target.checked;
         await saveState();
       });
-      
+
       filterTypeSelect.addEventListener("change", async (e) => {
         filter.type = e.target.value;
         await saveState();
       });
-      
+
       filterUrlInput.addEventListener("blur", async (e) => {
         filter.value = e.target.value.trim();
         await saveState();
       });
-      
+
       filterDeleteBtn.addEventListener("click", async () => {
         activeProfile.filters.splice(index, 1);
         await saveState();
         renderActiveProfile();
       });
-      
+
       filtersList.appendChild(li);
     });
   }
@@ -824,12 +824,12 @@ function renderActiveProfile() {
   // 3. Render Resource Types Grid
   resourcesGrid.innerHTML = "";
   const profileResources = activeProfile.resourceTypes || [...ALL_RESOURCE_TYPES];
-  
+
   ALL_RESOURCE_TYPES.forEach(type => {
     const isChecked = profileResources.includes(type);
     const label = document.createElement("label");
     label.className = "resource-label";
-    
+
     label.innerHTML = `
       <label class="checkbox-container">
         <input type="checkbox" class="resource-type-checkbox" value="${type}" ${isChecked ? "checked" : ""}>
@@ -837,12 +837,12 @@ function renderActiveProfile() {
       </label>
       <span>${formatResourceType(type)}</span>
     `;
-    
+
     const checkbox = label.querySelector(".resource-type-checkbox");
     checkbox.addEventListener("change", async (e) => {
       const activeProfile = getActiveProfile();
       if (!activeProfile) return;
-      
+
       if (e.target.checked) {
         if (!activeProfile.resourceTypes.includes(type)) {
           activeProfile.resourceTypes.push(type);
@@ -852,7 +852,7 @@ function renderActiveProfile() {
       }
       await saveState();
     });
-    
+
     resourcesGrid.appendChild(label);
   });
 }
@@ -900,10 +900,10 @@ function showToast(message, type = "success") {
   textSpan.textContent = message;
   toast.appendChild(textSpan);
   container.appendChild(toast);
-  
+
   // Animate Entrance
   setTimeout(() => toast.classList.add("show"), 10);
-  
+
   // Automatic Exit
   setTimeout(() => {
     toast.classList.remove("show");
