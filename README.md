@@ -1,5 +1,7 @@
 # InterceptX — Developer & Usage Guide
 
+[![Available in the Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-InterceptX-blue?logo=google-chrome&logoColor=white)](https://chromewebstore.google.com/detail/interceptx/jnpklmhdeccdaicnogklnohjlkbiplpl)
+
 InterceptX is a compact, high-performance Chrome extension (Manifest V3) designed to dynamically modify HTTP request headers, response headers, and perform URL redirects on the fly. It is optimized to support developers debugging APIs, testing CORS policies, simulating custom user environments, and testing local domains.
 
 ---
@@ -7,7 +9,7 @@ InterceptX is a compact, high-performance Chrome extension (Manifest V3) designe
 ## 1. Installation Guide
 
 ### From the Chrome Web Store (Standard)
-1. Open Google Chrome and navigate to the official Chrome Web Store page for **InterceptX**.
+1. Open Google Chrome and navigate to the official [Chrome Web Store page for InterceptX](https://chromewebstore.google.com/detail/interceptx/jnpklmhdeccdaicnogklnohjlkbiplpl).
 2. Click **"Add to Chrome"** in the top-right corner.
 3. Approve the permissions confirmation dialog to install the extension.
    > [!NOTE]
