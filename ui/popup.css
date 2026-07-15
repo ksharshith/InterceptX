@@ -56,6 +56,206 @@
   --row-border: rgba(0, 0, 0, 0.04);
 }
 
+/* ===== Light Theme Component Overrides ===== */
+
+/* Scrollbar */
+.light-theme ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.04);
+}
+.light-theme ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+}
+.light-theme ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Glass card shadow */
+.light-theme .glass-card {
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08);
+}
+
+/* Secondary buttons */
+.light-theme .btn-secondary {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: var(--text-secondary);
+}
+.light-theme .btn-secondary:hover {
+  background: rgba(0, 0, 0, 0.07);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+/* Danger button */
+.light-theme .btn-danger {
+  background: rgba(225, 29, 72, 0.06);
+  border: 1px solid rgba(225, 29, 72, 0.12);
+}
+
+/* Tool buttons */
+.light-theme .btn-tool {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.03);
+  color: var(--text-secondary);
+}
+.light-theme .btn-tool:hover {
+  background: rgba(0, 0, 0, 0.07);
+  color: var(--text-primary);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+.light-theme .btn-tool-danger:hover {
+  background: var(--danger);
+  color: #fff;
+  border-color: var(--danger);
+}
+
+/* Status panel */
+.light-theme .status-panel {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Switch / Slider */
+.light-theme .slider {
+  background-color: rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+.light-theme .slider:before {
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+.light-theme input:checked + .slider {
+  background-color: var(--success);
+}
+
+/* Select wrapper dropdown arrow */
+.light-theme .select-wrapper::after {
+  border-top-color: var(--text-muted);
+}
+
+/* Table header */
+.light-theme .rules-table th {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* Table inputs — normal state */
+.light-theme .rules-table select,
+.light-theme .rules-table input {
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text-primary);
+}
+
+/* Table inputs — focus state */
+.light-theme .rules-table select:focus,
+.light-theme .rules-table input:focus {
+  border-color: var(--primary);
+  background: #fff;
+  box-shadow: 0 0 0 2px var(--primary-glow);
+}
+
+/* Table inputs — invalid */
+.light-theme .rules-table input.invalid {
+  border-color: var(--danger);
+  box-shadow: 0 0 4px rgba(225, 29, 72, 0.15);
+}
+
+/* Checkbox checkmark */
+.light-theme .checkmark {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+/* Empty state */
+.light-theme .empty-state {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Filter items */
+.light-theme .filter-item {
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Filter inputs */
+.light-theme .filter-item input[type="text"] {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: var(--text-primary);
+}
+.light-theme .filter-item input[type="text"]:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-glow);
+}
+
+/* Filter selects */
+.light-theme .filter-item select {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: var(--text-secondary);
+}
+.light-theme .filter-item select:focus {
+  border-color: var(--primary);
+  color: var(--text-primary);
+}
+
+/* Resource type labels */
+.light-theme .resource-label {
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.light-theme .resource-label:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* Resources content border */
+.light-theme .resources-content {
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Table container border */
+.light-theme .table-container {
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Modal backdrop */
+.light-theme .modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
+/* Modal input focus */
+.light-theme .input-field input {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  color: var(--text-primary);
+}
+.light-theme .input-field input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-glow);
+}
+
+/* Toast alerts */
+.light-theme .toast {
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: var(--text-primary);
+}
+
+/* Docs modal code blocks */
+.light-theme .docs-modal-body code {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* Footer separator */
+.light-theme .footer-separator {
+  color: rgba(0, 0, 0, 0.15);
+}
+
+/* Footer border */
+.light-theme .app-footer {
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
